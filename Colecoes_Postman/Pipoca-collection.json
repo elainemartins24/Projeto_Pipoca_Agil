@@ -1,0 +1,6289 @@
+{
+	"info": {
+		"_postman_id": "44af5344-ee1a-4a96-b825-700274fc7cfc",
+		"name": "Pipoca Ágil API",
+		"description": "SpringBoot Application\n\nContact Support:\n Name: Azul Ciano",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23563516"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create test",
+					"item": [
+						{
+							"name": "Create a new user sucessfully",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function firstNameChanged(){\r",
+											"\t\r",
+											"\tvar firstNameChanged = [ \"Maria\",\"João\",\"Ana\",\"Pedro\",\"Carla\",\"Lucas\",\"Mariana\",\"Paulo\",\"Camila\",\"Rafael\",\"Juliana\",\"Gustavo\",\"Aparecido\",\"Fernando\",\"Amanda\",\"Diego\",\"Isabela\",\"Ricardo\",\"Natália\",\"Henrique\",\"Lívia\",\"Roberto\",\"Sofia\",\"Eduardo\",\"Vitória\",\"Fábio\",\"Mariana\",\"André\",\"Letícia\",\"Rodrigo\",\"Lara\",\"Guilherme\",\"Bianca\",\"Miguel\",\"Alice\",\"Leonardo\",\"Laura\",\"Daniel\",\"Beatriz\",\"Felipe\",\"Luísa\",\"Arthur\",\"Helena\",\"Gabriel\",\"Valentina\",\"Bernardo\",\"Wellington\",\"Vitor\",\"Clara\",\"Francisco\",\"Yasmin\",\"Enzo\",\"Isabel\",\"Isabella\",\"Orlando\",\"Joana\",\"Samuel\",\"Melissa\",\"Otávio\",\"Ana\",\"Breno\",\"Cecília\",\"Benjamin\",\"Luana\",\"Mariane\",\"Davi\",\"Nathália\",\"Raul\",\"Isadora\",\"Marcelo\",\"Luna\",\"Nicolas\",\"Laís\",\"Augusto\",\"Stella\",\"Geraldo\",\"Gabriela\",\"Luciano\",\"Evelyn\",\"Thiago\",\"Lorena\",\"Vinícius\",\"Catarina\",\"Murilo\",\"Guilherme\",\"Tomás\",\"Carolina\",\"Caio\",\"Manuela\",\"Emanuelly\",\"Lavinia\",\"Lucca\",\"Mirella\",\"Kevin\",\"Rebeca\",\"Alcides\",\"Jucelino\"];\r",
+											"\r",
+											"\tvar randomItem = firstNameChanged[Math.floor(Math.random() * firstNameChanged.length)];\r",
+											"\r",
+											"\treturn randomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"FirstName\", firstNameChanged());\r",
+											"\r",
+											"function lastName(){\r",
+											"\tvar lastName = pm.variables.replaceIn('{{$randomLastName}}')\r",
+											"    return lastName;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set('LastName', lastName());\r",
+											"\r",
+											"var fullname =  pm.environment.get('FirstName')+ \" \" + pm.environment.get('LastName')\r",
+											"\r",
+											"\r",
+											"pm.environment.set('FullName', fullname.normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\"));\r",
+											"\r",
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"    var newuser = pm.variables.get(\"FullName\").toLowerCase().replace(/\\s/g, \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\")\r",
+											"    var mail = newuser+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"Mail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%\";\r",
+											"  const comprimentoMinimo = 8;\r",
+											"  const comprimentoMaximo = 12;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"Password\", gerarSenha());\r",
+											"\r",
+											"function gerarDataSemHorario() {\r",
+											"    const data = new Date();\r",
+											"\r",
+											"    // Obtém o ano, mês e dia\r",
+											"  var arrayIdade = [18, 20, 25,30,40, 50];\r",
+											"  var randomItem = arrayIdade[Math.floor(Math.random() * arrayIdade.length)];\r",
+											"    const ano = data.getFullYear()-randomItem;\r",
+											"\r",
+											"    const mes = (data.getMonth() + 1).toString().padStart(2, '0');  // O mês é baseado em zero, então adicionamos 1\r",
+											"    const dia = data.getDate().toString().padStart(2, '0');\r",
+											"\r",
+											"    // Formata a data no formato YYYY-MM-DD\r",
+											"    const dataFormatada = `${ano}-${mes}-${dia}`;\r",
+											"\r",
+											"    return dataFormatada;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"DateBirth\", gerarDataSemHorario() );"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Usuário criado com sucesso!\").to.eql(JSON.parse(responseBody).message);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"//var jsonResponse = pm.response.json();\r",
+											"//var iduser = jsonResponse.id;\r",
+											"\r",
+											"var idjson = JSON.parse(responseBody);\r",
+											"\r",
+											"var iduser = idjson.id;\r",
+											"\r",
+											"pm.environment.set('IdUser', iduser);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{Mail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "FullName with FirstName only",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function firstNameChanged(){\r",
+											"\t\r",
+											"\tvar firstNameChanged = [ \"Maria\",\"João\",\"Ana\",\"Pedro\",\"Carla\",\"Lucas\",\"Mariana\",\"Paulo\",\"Camila\",\"Rafael\",\"Juliana\",\"Gustavo\",\"Aparecido\",\"Fernando\",\"Amanda\",\"Diego\",\"Isabela\",\"Ricardo\",\"Natália\",\"Henrique\",\"Lívia\",\"Roberto\",\"Sofia\",\"Eduardo\",\"Vitória\",\"Fábio\",\"Mariana\",\"André\",\"Letícia\",\"Rodrigo\",\"Lara\",\"Guilherme\",\"Bianca\",\"Miguel\",\"Alice\",\"Leonardo\",\"Laura\",\"Daniel\",\"Beatriz\",\"Felipe\",\"Luísa\",\"Arthur\",\"Helena\",\"Gabriel\",\"Valentina\",\"Bernardo\",\"Wellington\",\"Vitor\",\"Clara\",\"Francisco\",\"Yasmin\",\"Enzo\",\"Isabel\",\"Isabella\",\"Orlando\",\"Joana\",\"Samuel\",\"Melissa\",\"Otávio\",\"Ana\",\"Breno\",\"Cecília\",\"Benjamin\",\"Luana\",\"Mariane\",\"Davi\",\"Nathália\",\"Raul\",\"Isadora\",\"Marcelo\",\"Luna\",\"Nicolas\",\"Laís\",\"Augusto\",\"Stella\",\"Geraldo\",\"Gabriela\",\"Luciano\",\"Evelyn\",\"Thiago\",\"Lorena\",\"Vinícius\",\"Catarina\",\"Murilo\",\"Guilherme\",\"Tomás\",\"Carolina\",\"Caio\",\"Manuela\",\"Emanuelly\",\"Lavinia\",\"Lucca\",\"Mirella\",\"Kevin\",\"Rebeca\",\"Alcides\",\"Jucelino\"];\r",
+											"\r",
+											"\tvar randomItem = firstNameChanged[Math.floor(Math.random() * firstNameChanged.length)];\r",
+											"\r",
+											"\treturn randomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set('InvalidFullName', firstNameChanged().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\"));\r",
+											"\r",
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"    var mail = \"newuser9\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											" pm.expect(respostaTexto).to.equal(\"(Internal Validation) Invalid Full Name. The Full Name must contains 2 or more chars 1 blank space and 2 or more chars.\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{InvalidFullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "FullName does not accept special characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function specchar(){\r",
+											"    var specchar= [\"!\",\"@\",\"#\",\"%\", \"$\", \"&\", \"?\", \"+\", \"-\", \"/\"];\r",
+											"    var radomItem = specchar[Math.floor(Math.random() * specchar.length)];\r",
+											"    return radomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidFullName\", pm.environment.get(\"FullName\")+ specchar());\r",
+											"\r",
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"   \r",
+											"    var mail = \"newuser10\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{InvalidFullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "FullName does not accept number",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function specchar(){\r",
+											"    var specchar= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];\r",
+											"    var radomItem = specchar[Math.floor(Math.random() * specchar.length)];\r",
+											"    return radomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidFullName\", pm.environment.get(\"FullName\")+ specchar());\r",
+											"\r",
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"   \r",
+											"    var mail = \"newuser11\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{InvalidFullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "FullName does not accept null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"   \r",
+											"    var mail = \"newuser2\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user mail is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user with invalid mail",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"invalid@\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user with duplicate mail",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 409\", function () {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"Email já cadastrado!\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{Mail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user datebirth is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser3\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Verifica se a resposta contém a mensagem de erro esperada\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"(Internal Validation) Invalid Date. Insert a valid date birthday\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user datebirth less than 18",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser13\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarDataSemHorario() {\r",
+											"    const data = new Date();\r",
+											"\r",
+											"    // Obtém o ano, mês e dia\r",
+											"  var arrayIdade = [17, 16, 10,9, 5];\r",
+											"  var randomItem = arrayIdade[Math.floor(Math.random() * arrayIdade.length)];\r",
+											"    const ano = data.getFullYear()-randomItem;\r",
+											"\r",
+											"    const mes = (data.getMonth() + 1).toString().padStart(2, '0');  // O mês é baseado em zero, então adicionamos 1\r",
+											"    const dia = data.getDate().toString().padStart(2, '0');\r",
+											"\r",
+											"    // Formata a data no formato YYYY-MM-DD\r",
+											"    const dataFormatada = `${ano}-${mes}-${dia}`;\r",
+											"\r",
+											"    return dataFormatada;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidDateBirth\", gerarDataSemHorario() );"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Verifica se a resposta contém a mensagem de erro esperada\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"(Internal Validation) Invalid Date. Insert a valid date birthday\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{InvalidDateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user datebirth equal current date",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser4\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarDataAtual() {\r",
+											"    const data = new Date();\r",
+											" const ano = data.getFullYear();\r",
+											"\r",
+											"    const mes = (data.getMonth() + 1).toString().padStart(2, '0');  // O mês é baseado em zero, então adicionamos 1\r",
+											"    const dia = data.getDate().toString().padStart(2, '0');\r",
+											"\r",
+											"    // Formata a data no formato YYYY-MM-DD\r",
+											"    const dataFormatada = `${ano}-${mes}-${dia}`;\r",
+											"\r",
+											"    return dataFormatada;\r",
+											"  }\r",
+											"\r",
+											"pm.environment.set(\"InvalidDateBirth\", gerarDataAtual());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Verifica se a resposta contém a mensagem de erro esperada\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"(Internal Validation) Invalid Date. Insert a valid date birthday\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{InvalidDateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New user datebirth greater than current date",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser4\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarDataAtual() {\r",
+											"    const data = new Date();\r",
+											" const ano = data.getFullYear();\r",
+											"\r",
+											"    const mes = (data.getMonth() + 1).toString().padStart(2, '0');  // O mês é baseado em zero, então adicionamos 1\r",
+											"    const dia = (data.getDate()+1).toString().padStart(2, '0');\r",
+											"\r",
+											"    // Formata a data no formato YYYY-MM-DD\r",
+											"    const dataFormatada = `${ano}-${mes}-${dia}`;\r",
+											"\r",
+											"    return dataFormatada;\r",
+											"  }\r",
+											"\r",
+											"pm.environment.set(\"InvalidDateBirth\", gerarDataAtual());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Verifica se a resposta contém a mensagem de erro esperada\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"(Internal Validation) Invalid Date. Insert a valid date birthday\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{Password}}\",\n  \"dateBirth\": \"{{InvalidDateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser6\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password less than 8 character",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser7\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%\";\r",
+											"  const comprimentoMinimo = 1;\r",
+											"  const comprimentoMaximo = 7;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidPassword\", gerarSenha());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{InvalidPassword}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password with special characters only",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser7\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"@#$%\";\r",
+											"  const comprimentoMinimo = 8;\r",
+											"  const comprimentoMaximo = 12;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidPassword\", gerarSenha());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{InvalidPassword}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password with numbers only",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser7\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"0123456789\";\r",
+											"  const comprimentoMinimo = 8;\r",
+											"  const comprimentoMaximo = 12;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidPassword\", gerarSenha());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{InvalidPassword}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password with capital letters only",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser7\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\r",
+											"  const comprimentoMinimo = 8;\r",
+											"  const comprimentoMaximo = 12;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidPassword\", gerarSenha());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{InvalidPassword}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Password with lowercase letters only",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function domain(){\r",
+											"    var domain = [\"@gmail.com\",\"@hotmail.com\",\"@yahoo.com\",\"@outlook.com\",\"@aol.com\",\"@icloud.com\",\"@uol.com.br\"];\r",
+											"    var radomItem = domain[Math.floor(Math.random() * domain.length)]\r",
+											"    return radomItem;\r",
+											"}\r",
+											"pm.variables.set(\"Domain\", domain());\r",
+											"\r",
+											"function mail(){\r",
+											"     var mail = \"newuser7\"+pm.variables.get(\"Domain\")\r",
+											"    return mail;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidMail\", mail());\r",
+											"\r",
+											"function gerarSenha() {\r",
+											"  const caracteres = \"abcdefghijklmnopqrstuvwxyz\";\r",
+											"  const comprimentoMinimo = 8;\r",
+											"  const comprimentoMaximo = 12;\r",
+											"  \r",
+											"  let senhaArray = [];\r",
+											"\r",
+											"  // Garante pelo menos um caractere maiúsculo, minúsculo, número e especial\r",
+											"  senhaArray.push(caracteres[Math.floor(Math.random() * 26)]); // Caractere maiúsculo\r",
+											"  senhaArray.push(caracteres[26 + Math.floor(Math.random() * 26)]); // Caractere minúsculo\r",
+											"  senhaArray.push(caracteres[52 + Math.floor(Math.random() * 10)]); // Número\r",
+											"  senhaArray.push(caracteres[62 + Math.floor(Math.random() * 4)]); // Caractere especial\r",
+											"\r",
+											"  const comprimentoRestante = Math.max(comprimentoMinimo - senhaArray.length, comprimentoMaximo - senhaArray.length);\r",
+											"\r",
+											"  for (let i = 0; i < comprimentoRestante; i++) {\r",
+											"    senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);\r",
+											"  }\r",
+											"\r",
+											"  return shuffleString(senhaArray.join(\"\"));\r",
+											"}\r",
+											"\r",
+											"// Função para embaralhar uma string\r",
+											"function shuffleString(string) {\r",
+											"  return string.split(\"\").sort(() => Math.random() - 0.5).join(\"\");\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InvalidPassword\", gerarSenha());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"fullName\": \"{{FullName}}\",\n  \"password\": \"{{InvalidPassword}}\",\n  \"dateBirth\": \"{{DateBirth}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"(Internal Validation) *\"\n}"
+								},
+								{
+									"name": "Conflict",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email já cadastrado!\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"password\": \"OCsG1oai>9G*!\",\n  \"dateBirth\": \"<date>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "authorize test",
+					"item": [
+						{
+							"name": "Authorize user sucessfully",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"pm.environment.set(\"tokenuser\", respostaTexto);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{Mail}}\",\n  \"password\": \"{{Password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login with Invalid Mail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function(){\r",
+											"    pm.response.to.have.status(401);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"Email ou Senha inválidos.\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"password\": \"{{Password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login with Invalid Mail and Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function(){\r",
+											"    pm.response.to.have.status(401);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"// Extrai o corpo da resposta Texto\r",
+											"const respostaTexto = pm.response.text();\r",
+											"\r",
+											"    pm.expect(respostaTexto).to.equal(\"Email ou Senha inválidos.\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{InvalidMail}}\",\n  \"password\": \"{{InvalidPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login with  Mail and Password is null",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"\",\n  \"password\": \"\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login with  Mail is null",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"\",\n  \"password\": \"{{Password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login with  Password is null",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response correct message\", function () {\r",
+											"    pm.expect(\"Bad Request\").to.eql(JSON.parse(responseBody).error);\r",
+											"\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{Mail}}\",\n  \"password\": \"\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/authorize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"authorize"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Email ou Senha inválidos.\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/authorize",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": \"Erro interno, tente novamente mais tarde.\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokenuser}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/all",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/57",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"57"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://pipoca-backend.onrender.com"
+		}
+	]
+}
